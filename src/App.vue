@@ -22,6 +22,10 @@ import Vue from 'vue';
 import $ from 'jquery';
 import { getUrlVar } from './shared/utils';
 import { INVALID_SORT_FIELD_PROBLEM_TYPE } from './shared/problemDetails';
+import {
+  SUPPRESS_GLOBAL_ERROR_TOAST,
+  suppressesGlobalErrorToast,
+} from './shared/httpErrorToast';
 import { getToken, clearPermissions } from './shared/permissions';
 import EventBus from './shared/eventbus';
 import VueRouter from 'vue-router';
@@ -148,6 +152,10 @@ export default {
     }
 
     this.axios.interceptors.response.use(null, (error) => {
+      // The call site reports this failure itself, or expects it entirely.
+      if (suppressesGlobalErrorToast(error)) {
+        return Promise.reject(error);
+      }
       if (!error.response) {
         this.$toastr.e(
           this.$t('condition.unsuccessful_action'),
@@ -265,10 +273,19 @@ export default {
   methods: {
     async fetchBannerConfig() {
       try {
-        const response = await this.axios.get(getBannerConfigUrl(this.$api));
+        // The banner is optional: on an instance that never configured one the
+        // property does not exist and the API answers 404. That is a normal
+        // state, not something to alarm the user about, so this request opts
+        // out of the global error toast.
+        const response = await this.axios.get(
+          getBannerConfigUrl(this.$api),
+          SUPPRESS_GLOBAL_ERROR_TOAST,
+        );
         this.bannerConfig = parseBannerConfigFromProperty(response);
       } catch (e) {
-        console.error('Failed to load banner config:', e);
+        // Kept at debug level: a missing banner config is not an error, but a
+        // 5xx here is still worth being able to see.
+        console.debug('No banner config loaded:', e);
         this.bannerConfig = null;
       }
     },

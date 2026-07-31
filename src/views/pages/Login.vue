@@ -37,7 +37,7 @@
                       mode="passive"
                       icon="icon-lock"
                       type="password"
-                      autcomplete="currentpassword"
+                      autocomplete="current-password"
                       v-model="input.password"
                       lazy="true"
                       v-show="showLoginForm"
@@ -263,7 +263,7 @@ export default {
           state: getRedirectUrl(this.$router),
         })
         .catch((err) => {
-          console.log(err);
+          console.error(err);
           this.$toastr.e(this.$t('message.oidc_redirect_failed'));
         });
     },

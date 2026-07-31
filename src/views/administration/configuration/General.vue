@@ -72,6 +72,7 @@
 
 <script>
 import LocalePicker from '@/views/components/LocalePicker.vue';
+import { localeToFlagEmoji } from '@/shared/localeFlag';
 import { Switch as cSwitch } from '@coreui/vue';
 import { ValidationObserver } from 'vee-validate';
 import BValidatedInputGroupFormInput from '../../../forms/BValidatedInputGroupFormInput';
@@ -123,24 +124,7 @@ export default {
         },
       ]);
     },
-    localeToFlag: function (locale) {
-      // Largely taken from wojtekmaj/country-code-to-flag-emoji. Adopted to be able to deal with locale codes as inputs.
-      // https://github.com/wojtekmaj/country-code-to-flag-emoji/blob/ff0d3d2dd9680b6f860d85fc9e713e93e396adb7/src/index.ts
-      let countryCode = locale.split('-').pop().toUpperCase();
-      if (countryCode === 'EN') {
-        countryCode = 'US'; // Sorry Britain!
-      } else if (countryCode === 'HI') {
-        countryCode = 'IN';
-      } else if (countryCode === 'JA') {
-        countryCode = 'JP';
-      } else if (countryCode === 'ZH') {
-        countryCode = 'CN';
-      }
-      return Array.from(countryCode)
-        .map((letter) => letter.toLowerCase().charCodeAt(0) + 127365)
-        .map((charCode) => String.fromCodePoint(charCode))
-        .join('');
-    },
+    localeToFlag: localeToFlagEmoji,
   },
   created() {
     this.axios.get(this.configUrl).then((response) => {

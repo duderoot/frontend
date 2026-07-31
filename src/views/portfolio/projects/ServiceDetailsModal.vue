@@ -420,7 +420,6 @@ export default {
     updateService: function () {
       this.$root.$emit('bv::hide::modal', 'serviceDetailsModal');
       let url = `${this.$api.BASE_URL}/${this.$api.URL_SERVICE}`;
-      console.log(this.service);
       this.axios
         .post(url, this.service)
         .then((response) => {

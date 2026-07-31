@@ -193,9 +193,6 @@ export default {
     };
   },
   beforeMount() {
-    console.log('initializing team details');
-    console.log(this.row.apiKeys);
-    console.log(this.apiKeys);
     const modified = sessionStorage.getItem(this.storageIdentifier);
     if (modified) {
       sessionStorage.removeItem(this.storageIdentifier);
@@ -205,7 +202,6 @@ export default {
   watch: {
     team: {
       handler(newValue) {
-        console.log(`team %O`, newValue);
         this.name = newValue.name;
         this.apiKeys = this.apiKeysToDict(newValue.apiKeys ?? []);
         this.permissions = newValue.permissions;
