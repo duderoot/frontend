@@ -126,7 +126,7 @@ export default {
   },
   computed: {
     hasFilter() {
-      return this.value && this.value.operator && this.value.value;
+      return !!(this.value && this.value.operator && this.value.value);
     },
     operatorAbbrev() {
       return supportedOperators.find((op) => op.name === this.tmpOperator)

@@ -115,7 +115,7 @@ export default {
   },
   computed: {
     hasFilter() {
-      return this.value && (this.value.since || this.value.before);
+      return !!(this.value && (this.value.since || this.value.before));
     },
     displayValue() {
       if (!this.value) return '';

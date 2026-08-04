@@ -92,7 +92,7 @@ export default {
   },
   computed: {
     hasFilter() {
-      return (
+      return !!(
         this.value &&
         this.value.fields &&
         this.value.fields.length > 0 &&

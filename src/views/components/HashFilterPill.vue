@@ -86,7 +86,7 @@ export default {
   },
   computed: {
     hasFilter() {
-      return this.value && this.value.hashType && this.value.hash;
+      return !!(this.value && this.value.hashType && this.value.hash);
     },
     hashTypeOptions() {
       return [

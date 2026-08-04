@@ -80,7 +80,7 @@ export default {
   },
   computed: {
     hasFilter() {
-      return this.value && this.value.length > 0;
+      return !!(this.value && this.value.length > 0);
     },
     displayValue() {
       if (!this.value || this.value.length === 0) return '';

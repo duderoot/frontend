@@ -109,7 +109,10 @@ export default {
   },
   computed: {
     hasFilter() {
-      return this.value && (this.value.from !== null || this.value.to !== null);
+      return !!(
+        this.value &&
+        (this.value.from !== null || this.value.to !== null)
+      );
     },
     displayValue() {
       if (!this.value) return '';
